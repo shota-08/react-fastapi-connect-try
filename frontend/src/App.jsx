@@ -3,22 +3,32 @@ import axios from "axios";
 
 function App() {
   const [data, setData] = useState();
-  const url = "http://127.0.0.1:8001";
+  const [inputText, setInputText] = useState("");
+  const url = "http://127.0.0.1:8001/send";
 
-  const GetData = () => {
-    axios.get(url).then((res) => {
-      setData(res.data);
-    });
+  const sendData = () => {
+    axios
+      .post(url, { text: inputText })
+      .then((res) => {
+        setData(res.data.text);
+      })
+      .catch((error) => {
+        console.error("error!", error);
+      });
   };
 
   return (
     <>
-      <div>ここに処理を書いていきます</div>
-      {data ? (
-        <div>{data.Hello}</div>
-      ) : (
-        <button onClick={GetData}>データを取得</button>
-      )}
+      <h1>OpenAIからの回答を取得</h1>
+      <input
+        type="text"
+        value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
+      />
+      <button onClick={sendData}>データを取得</button>
+      <div>
+        <p>{data}</p>
+      </div>
     </>
   );
 }
