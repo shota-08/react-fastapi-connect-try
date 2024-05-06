@@ -9,6 +9,7 @@ function App() {
   const sendData = () => {
     axios
       .post(url, { text: inputText })
+      // 通信が成功すれば返ってくる
       .then((res) => {
         setData(res.data.text);
       })
